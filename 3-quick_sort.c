@@ -12,7 +12,7 @@
  */
 void quick_sort(int *array, size_t size)
 {
-  my_quick_sort(array, 0, size, size);
+  my_quick_sort(array, 0, size - 1, size);
 }
 
 void my_quick_sort(int *array, int low, int high, size_t size)
@@ -22,7 +22,7 @@ void my_quick_sort(int *array, int low, int high, size_t size)
   if (low < high)
   {
     j = partition(array, low, high, size);
-    my_quick_sort(array, low, j, size);
+    my_quick_sort(array, low, j - 1, size);
     my_quick_sort(array, j + 1, high, size);
   }
 }
@@ -40,34 +40,19 @@ void my_quick_sort(int *array, int low, int high, size_t size)
  */
 int partition(int *array, int low, int high, int size)
 {
-  int i = low, j = high;
-  int pivot = array[low];
+  int i = low - 1, j = low, pivot = array[high];
 
-  /* Two pointers will point at the opposite ends of the array */
-  while(i < j)
+  for(; j < high; j++)
   {
-    /* 'i' will increment until it finds a number greater than the pivot */
-    do {
-      i++;
-    }while (*(array + i) < pivot);
-
-    /* 'j' will decrement until it finds a number less than the pivot */
-    do {
-      j--;
-    }while (*(array + j) > pivot);
-
-    /* we will swap the the two numbers if they are found */
-    if (i < j)
+    if (array[j] <= pivot)
     {
+      i++;
       swap((array + i), (array + j));
-      print_array(array, size);
     }
   }
-  /* if 'i' becomes greater than 'j' then the we move the pivot to position 'j'
-   * then we return 'j'*/
-  swap((array + low), (array + j));
+  swap((array + (i + 1)), (array + high));
   print_array(array, size);
-  return j;
+  return i + 1;
 }
 
 /*
