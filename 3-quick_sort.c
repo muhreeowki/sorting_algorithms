@@ -1,9 +1,10 @@
 #include "sort.h"
 #include <stddef.h>
+#include <stdio.h>
 
 /**
  * quick_sort - sorts an array of integers
- * in ascending order using the Quick Sort algorithm
+ * in ascending order using the Quicj Sort algorithm
  *
  * @array - array to sort
  * @size - size of the array
@@ -12,19 +13,7 @@
  */
 void quick_sort(int *array, size_t size)
 {
-  my_quick_sort(array, 0, size - 1, size);
-}
-
-void my_quick_sort(int *array, int low, int high, size_t size)
-{
-  int j;
-
-  if (low < high)
-  {
-    j = partition(array, low, high, size);
-    my_quick_sort(array, low, j - 1, size);
-    my_quick_sort(array, j + 1, high, size);
-  }
+  partition(array, 0, size - 1, size);
 }
 
 /*
@@ -38,22 +27,36 @@ void my_quick_sort(int *array, int low, int high, size_t size)
  *
  * Return - the index to which the pivot was moved to.
  */
-int partition(int *array, int low, int high, int size)
+void partition(int *array, int low, int high, int size)
 {
-  int i = low - 1, j = low, pivot = array[high];
+  int j, i;
+	int pivot;
 
-  for(; j < high; j++)
-  {
-    if (array[j] <= pivot)
-    {
-      i++;
-      swap((array + i), (array + j));
-      print_array(array, size);
-    }
-  }
-  swap((array + (i + 1)), (array + high));
-  print_array(array, size);
-  return i + 1;
+	if ((low >= high) || (array == NULL))
+		return;
+	pivot = array[high];
+	j = low;
+	for (i = low; i < high; i++)
+	{
+		if (array[i] <= pivot)
+		{
+			if (j != i)
+			{
+				swap(array + j, array + i);
+				print_array(array, size);
+			}
+			j++;
+		}
+	}
+	if (j != high)
+	{
+		swap(array + j, array + high);
+		print_array(array, size);
+	}
+	if (j - low > 1)
+		partition(array, low, j - 1, size);
+	if (high - j > 1)
+		partition(array, j + 1, high, size);
 }
 
 /*
@@ -68,7 +71,10 @@ void swap(int *ptr1, int *ptr2)
 {
   int temp;
 
-  temp = *ptr1;
-  *ptr1 = *ptr2;
-  *ptr2 = temp;
+  if (ptr1 && ptr2) 
+  {
+    temp = *ptr1;
+    *ptr1 = *ptr2;
+    *ptr2 = temp;
+  }
 }
