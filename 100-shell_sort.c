@@ -22,7 +22,7 @@ void shell_sort(int *array, size_t size)
     return;
 
   /* Using the Knuth sequence */
-  for (; gap > 0; gap /= 3)
+  while (gap > 0)
   {
     swapped = 0;
     for (i = gap;i < size; i++)
@@ -41,6 +41,7 @@ void shell_sort(int *array, size_t size)
       }
       array[j] = temp;
     }
+    gap /= 3;
     if (swapped == 1)
       print_array(array, size);
   }
