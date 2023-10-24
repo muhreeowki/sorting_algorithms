@@ -12,7 +12,7 @@
  */
 void cocktail_sort_list(listint_t **list)
 {
-  listint_t *curr, *prev, *next;
+  listint_t *curr, *prev;
   int sorted = -1;
 
   if (!list || *list == NULL)
@@ -49,7 +49,6 @@ void cocktail_sort_list(listint_t **list)
         print_list(*list);
         continue;
       }
-      next = curr->next;
       curr = curr->prev;
     }
   }
